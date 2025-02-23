@@ -13,13 +13,24 @@ const ContainerComponent = () => {
 
     // Load data from localStorage when component mounts
     useEffect(() => {
-        const savedTaskList = localStorage.getItem("taskList");
-        savedTaskList && setTaskList(JSON.parse(savedTaskList));
+        try {
+            const savedTaskList = localStorage.getItem("taskList");
+            savedTaskList && setTaskList(JSON.parse(savedTaskList));
+        }
+        catch(error) {
+            console.error(`Error parsing localStorage data: ${error}`);
+        }
+
     }, []);
 
     // Save data to localStorage whenever taskList changes
     useEffect(() => {
-        taskList.length > 0 ? localStorage.setItem("taskList", JSON.stringify(taskList)) : localStorage.removeItem("taskList");
+        try {
+            taskList.length > 0 ? localStorage.setItem("taskList", JSON.stringify(taskList)) : localStorage.removeItem("taskList");
+        }
+        catch(error) {
+            console.error(`Error stringifying data for localStorage: ${error}`);
+        }
     }, [taskList]);
 
     return(
