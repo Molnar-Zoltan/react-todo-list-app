@@ -14,14 +14,14 @@ const ContainerComponent = () => {
 
     return(
         <div>
-            <h1 className="font-bold text-4xl text-center flex flex-col pt-2">{document.title}</h1>
-            <div className="flex justify-center items-center gap-2 pt-10">
+            <h1 className="font-bold text-6xl text-center flex flex-col pt-2">{document.title}</h1>
+            <div className="flex justify-center items-center gap-2 pt-20">
                 <TaskContext.Provider value={{taskList, setTaskList, task, setTask}} >
                     <InputComponent task={task} setTask={setTask} />
                     <AddButtonComponent taskList={taskList} setTaskList={setTaskList} task={task} setTak={setTask} />
                 </TaskContext.Provider>
             </div>
-            <div className="flex items-center flex-col pt-10 pb-5">
+            <div className="flex items-center flex-col pt-15 pb-5">
                 <TaskContext.Provider value={{taskList, setTaskList}} > 
                     <TaskListComponent taskList = {taskList} setTaskList={setTaskList} />
                 </TaskContext.Provider>
