@@ -8,7 +8,7 @@ const DeleteButtonComponent = (props) => {
 
     const deleteTask = (index) => {
         setTaskList(
-            taskList.filter((_, i) => i !== index)
+            taskList.filter((_, i) => i !== index) // Removes the selected task from the list
         );
     }
 

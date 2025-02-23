@@ -1,4 +1,4 @@
-import { useState, createContext } from "react";
+import { useState, createContext, useEffect } from "react";
 import InputComponent from "./InputComponent";
 import AddButtonComponent from "./AddButtonComponent";
 import TaskListComponent from "./TaskList/TaskListComponent";
@@ -6,11 +6,21 @@ import TaskListComponent from "./TaskList/TaskListComponent";
 
 export const TaskContext = createContext();
 
-
 const ContainerComponent = () => {
 
     const [taskList, setTaskList] = useState([]);
     const [task, setTask] = useState("");
+
+    // Load data from localStorage when component mounts
+    useEffect(() => {
+        const savedTaskList = localStorage.getItem("taskList");
+        savedTaskList && setTaskList(JSON.parse(savedTaskList));
+    }, []);
+
+    // Save data to localStorage whenever taskList changes
+    useEffect(() => {
+        taskList.length > 0 ? localStorage.setItem("taskList", JSON.stringify(taskList)) : localStorage.removeItem("taskList");
+    }, [taskList]);
 
     return(
         <div>

@@ -8,8 +8,8 @@ const AddButtonComponent = () => {
 
     const AddTask = () => {
         if (task.trim() !== "") {
-            setTaskList(() => [...taskList, task]);
-            setTask("");
+            setTaskList(() => [...taskList, task]); // Adds the input to the list
+            setTask(""); // Clears the input after adding the task to the list
         }
     }
 
