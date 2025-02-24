@@ -35,7 +35,7 @@ const ContainerComponent = () => {
 
     return(
         <div>
-            <h1 className="font-bold text-6xl text-center flex flex-col pt-2">{document.title}</h1>
+            <h1 className="font-bold text-6xl text-center flex flex-col pt-2 select-none">{document.title}</h1>
             <div className="flex justify-center items-center gap-2 pt-20">
                 <TaskContext.Provider value={{taskList, setTaskList, task, setTask}} >
                     <InputComponent task={task} setTask={setTask} />

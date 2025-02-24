@@ -65,7 +65,7 @@ const TaskListComponent = () => {
                 <div onClick={(event) => hideTasks(event, "active")} className="list-header flex justify-center items-center fill-neutral-200 cursor-pointer
                   hover:fill-neutral-500 hover:text-neutral-500 active:fill-neutral-500 active:text-neutral-500">
                     <div className="flex justify-center items-center bg-neutral-900 shadow-md shadow-neutral-950 w-145 mb-5 py-2 -ml-2">
-                        <h1 className="font-bold text-3xl">Active Tasks</h1>
+                        <h1 className="font-bold text-3xl select-none">Active Tasks</h1>
                     </div>  
                     <svg className="h-10 -ml-12 mb-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" ><path d="m480-333.33-245.67-245h491.34L480-333.33Z"/></svg>
                     <svg className="h-10 -ml-12 mb-4 hidden" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path d="M234.33-381 480-627.33 725.67-381H234.33Z"/></svg>
@@ -73,7 +73,7 @@ const TaskListComponent = () => {
                 <ol ref={activeTasksRef} className="flex flex-col gap-3.5 w-145">
                     {taskList.map((task, index) => !task.completed &&
                         <li key={index} className="flex justify-between items-center text-3xl font-bold bg-neutral-600 px-3 py-3 rounded-sm shadow-md shadow-neutral-950 h-18" >
-                            <span className="max-w-120 overflow-x-auto overflow-y-hidden">
+                            <span className="max-w-120 overflow-x-auto overflow-y-hidden select-none">
                                 <input type="checkbox" onChange={(event) => checkboxHandler(event, index)} id="completedCheckbox" checked={task.completed} 
                                 className="h-6 w-6 appearance-none bg-neutral-400 rounded-full checked:bg-green-600 border-4 border-neutral-800 cursor-pointer mr-2" /> 
                                 {task.task}
@@ -95,7 +95,7 @@ const TaskListComponent = () => {
                 <div onClick={(event) => hideTasks(event, "completed")} className="list-header flex justify-center items-center fill-neutral-200 cursor-pointer
                   hover:fill-neutral-500 hover:text-neutral-500 active:fill-neutral-500 active:text-neutral-500">
                     <div className="flex justify-center items-center bg-neutral-900 shadow-md shadow-neutral-950 w-145 mb-5 py-2 -ml-2">
-                        <h1 className="font-bold text-3xl">Completed Tasks</h1>
+                        <h1 className="font-bold text-3xl select-none">Completed Tasks</h1>
                     </div>  
                     <svg className="h-10 -ml-12 mb-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" ><path d="m480-333.33-245.67-245h491.34L480-333.33Z"/></svg>
                     <svg className="h-10 -ml-12 mb-4 hidden" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path d="M234.33-381 480-627.33 725.67-381H234.33Z"/></svg>
@@ -103,7 +103,7 @@ const TaskListComponent = () => {
                 <ol ref={completedTasksRef} className="flex flex-col gap-3.5 w-145">
                 {taskList.map((task, index) => task.completed &&
                     <li key={index} className="flex justify-between items-center text-3xl font-bold bg-neutral-600 px-3 py-3 rounded-sm shadow-md shadow-neutral-950 h-18" >
-                        <span className="max-w-120 overflow-x-auto overflow-y-hidden text-neutral-400 custom-line-through">
+                        <span className="max-w-120 overflow-x-auto overflow-y-hidden text-neutral-400 custom-line-through select-none">
                             <input type="checkbox" onChange={(event) => checkboxHandler(event, index)} id="completedCheckbox" checked={task.completed} 
                             className="h-6 w-6 appearance-none bg-neutral-400 rounded-full checked:bg-green-600 border-4 border-neutral-800 cursor-pointer mr-2" /> 
                             {task.task}
