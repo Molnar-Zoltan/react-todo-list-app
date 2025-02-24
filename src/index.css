@@ -18,3 +18,9 @@
   
 }
 
+.custom-line-through {
+  text-decoration: line-through;
+  text-decoration-thickness: 0.4rem; /* Adjust the thickness */
+  text-decoration-color: var(--color-neutral-800);
+}
+
