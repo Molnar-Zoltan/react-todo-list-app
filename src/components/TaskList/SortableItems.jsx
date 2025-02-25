@@ -13,7 +13,8 @@ const SortableItem = ({ task }) => {
   };
 
   return (
-    <div ref={setNodeRef} style={style} {...attributes} {...listeners} className="select-none flex justify-between items-center text-3xl font-bold bg-neutral-600 px-3 py-3 rounded-sm shadow-md shadow-neutral-950 h-18 cursor-grab active:cursor-grabbing">
+    <div ref={setNodeRef} style={style} {...attributes} {...listeners} 
+         className="select-none flex justify-between items-center text-3xl font-bold bg-neutral-600 px-3 py-3 rounded-sm shadow-md shadow-neutral-950 h-18 cursor-grab active:cursor-grabbing touch-none">
          <div>
             <CheckboxComponent id={task.id} completed={task.completed} />
             {task.task}

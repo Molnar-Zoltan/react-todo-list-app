@@ -9,7 +9,7 @@ const CheckboxComponent = (props) => {
     // It updates the "completed" status of tasks based on the checkbox's "checked" state
     const checkboxHandler = (event, id) => {
         const isChecked = event.target.checked;
-        console.log(id)
+
         setTaskList(newTaskList =>  
             newTaskList.map((newTask) => newTask.id === id ? { ...newTask, completed: isChecked } : newTask)
         );
