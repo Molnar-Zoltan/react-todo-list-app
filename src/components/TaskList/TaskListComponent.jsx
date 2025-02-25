@@ -1,6 +1,11 @@
 import { useContext, useRef } from "react";
 import { TaskContext } from "../ContainerComponent";
+import { DndContext, closestCenter } from "@dnd-kit/core";
+import { SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable";
+import { arrayMove } from "@dnd-kit/sortable";
 import DeleteButtonComponent from "./DeleteButtonComponent";
+import SortableItem from "./SortableItems";
+import CheckboxComponent from "./CheckboxComponent";
 
 
 const TaskListComponent = () => {
@@ -9,15 +14,6 @@ const TaskListComponent = () => {
     const activeTasksRef = useRef(null);
     const completedTasksRef = useRef(null);
 
-    // It updates the "completed" status of tasks based on the checkbox's "checked" state
-    const checkboxHandler = (event, index) => {
-        const isChecked = event.target.checked;
-
-        setTaskList(newTaskList =>  
-            newTaskList.map((newTask, i) => i === index ? { ...newTask, completed: isChecked } : newTask)
-        );
-    }
- 
     // Checks if there are any "active" or "completed" tasks
     const showListName = (props) => {
         switch (props) {
@@ -57,6 +53,18 @@ const TaskListComponent = () => {
         }
     }
 
+    // Handles the drag & drop interaction
+    const handleDragEnd = (event) => {
+        const { active, over } = event; // active: the task being dragged, over: the task being replaced
+        if (!over || active.id === over.id) return; // Exit if there's no target task or the task being dragged is the same as the target
+    
+        setTaskList((prevTaskList) => {
+          const oldIndex = prevTaskList.findIndex((task) => task.id === active.id);
+          const newIndex = prevTaskList.findIndex((task) => task.id === over.id);
+          return arrayMove(prevTaskList, oldIndex, newIndex);
+        });
+      };
+
     return(
         <>
             { showListName("active") && 
@@ -70,19 +78,16 @@ const TaskListComponent = () => {
                     <svg className="h-10 -ml-12 mb-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960" ><path d="m480-333.33-245.67-245h491.34L480-333.33Z"/></svg>
                     <svg className="h-10 -ml-12 mb-4 hidden" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path d="M234.33-381 480-627.33 725.67-381H234.33Z"/></svg>
                 </div>          
-                <ol ref={activeTasksRef} className="flex flex-col gap-3.5 w-145">
-                    {taskList.map((task, index) => !task.completed &&
-                        <li key={index} className="flex justify-between items-center text-3xl font-bold bg-neutral-600 px-3 py-3 rounded-sm shadow-md shadow-neutral-950 h-18" >
-                            <span className="max-w-120 overflow-x-auto overflow-y-hidden select-none">
-                                <input type="checkbox" onChange={(event) => checkboxHandler(event, index)} id="completedCheckbox" checked={task.completed} 
-                                className="h-6 w-6 appearance-none bg-neutral-400 rounded-full checked:bg-green-600 border-4 border-neutral-800 cursor-pointer mr-2" /> 
-                                {task.task}
-                            </span>
-                            <DeleteButtonComponent index={index} />
-                        </li>
-                    )}
-                    {showListName("completed") && <div className="pb-15"></div>} {/* Adds bottom padding when both lists are visible. */}
-                </ol>
+                <div ref={activeTasksRef} className="flex flex-col gap-3.5 w-145">
+                    <DndContext collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+                    <SortableContext items={taskList} strategy={verticalListSortingStrategy}>
+                        {taskList.map((task) => !task.completed &&
+                            <SortableItem key={task.id} task={task} />
+                        )}
+                    </SortableContext>
+                    </DndContext>
+                    {showListName("completed") && <div className="pb-10"></div>} {/* Adds bottom padding when both lists are visible */}
+                </div>
          
             </div>
             } 
@@ -101,14 +106,13 @@ const TaskListComponent = () => {
                     <svg className="h-10 -ml-12 mb-4 hidden" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"><path d="M234.33-381 480-627.33 725.67-381H234.33Z"/></svg>
                 </div> 
                 <ol ref={completedTasksRef} className="flex flex-col gap-3.5 w-145">
-                {taskList.map((task, index) => task.completed &&
-                    <li key={index} className="flex justify-between items-center text-3xl font-bold bg-neutral-600 px-3 py-3 rounded-sm shadow-md shadow-neutral-950 h-18" >
+                {taskList.map((task) => task.completed &&
+                    <li key={task.id} className="flex justify-between items-center text-3xl font-bold bg-neutral-600 px-3 py-3 rounded-sm shadow-md shadow-neutral-950 h-18" >
                         <span className="max-w-120 overflow-x-auto overflow-y-hidden text-neutral-400 custom-line-through select-none">
-                            <input type="checkbox" onChange={(event) => checkboxHandler(event, index)} id="completedCheckbox" checked={task.completed} 
-                            className="h-6 w-6 appearance-none bg-neutral-400 rounded-full checked:bg-green-600 border-4 border-neutral-800 cursor-pointer mr-2" /> 
+                            <CheckboxComponent id={task.id} completed={task.completed} />
                             {task.task}
                         </span>
-                        <DeleteButtonComponent index={index} />
+                        <DeleteButtonComponent id={task.id} />
                     </li>
                 )}
                 </ol>

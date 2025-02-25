@@ -8,7 +8,7 @@ const AddButtonComponent = () => {
 
     const AddTask = () => {
         if (task.trim() !== "") {
-            const newTask = { task: task, completed: false };
+            const newTask = { id: taskList.length, task: task, completed: false };
             setTaskList(() => [...taskList, newTask]); // Adds the input to the list
             setTask(""); // Clears the input after adding the task to the list
         }
